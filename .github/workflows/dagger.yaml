@@ -20,4 +20,4 @@ jobs:
           # set via the GitHub UI/CLI
           cloud-token: ${{ secrets.DAGGER_CLOUD_TOKEN }}
       - name: Stop engine gracefully
-        uses: docker container stop -t 300 "$(docker container list --filter 'name=^dagger-engine-*' -q)"
+        run: docker container stop -t 300 "$(docker container list --filter 'name=^dagger-engine-*' -q)"
