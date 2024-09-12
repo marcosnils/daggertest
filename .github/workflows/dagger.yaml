@@ -15,9 +15,8 @@ jobs:
         with:
           version: "latest"
           args: container-echo --string-arg "hello two"
+          engine-stop: true
           # assumes the Dagger Cloud token is in
           # a repository secret named DAGGER_CLOUD_TOKEN
           # set via the GitHub UI/CLI
           cloud-token: ${{ secrets.DAGGER_CLOUD_TOKEN }}
-      - name: Stop engine gracefully
-        run: docker container stop -t 300 "$(docker container list --filter 'name=^dagger-engine-*' -q)"
