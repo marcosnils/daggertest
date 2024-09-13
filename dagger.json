@@ -1,8 +1,6 @@
 {
   "name": "daggertest",
   "sdk": "go",
-  "engineVersion": "v0.13.0",
-  "exclude": [
-    "**/.github"
-  ]
+  "source": "dagger",
+  "engineVersion": "v0.13.0"
 }
