@@ -14,7 +14,7 @@ jobs:
         uses: dagger/dagger-for-github@v6
         with:
           version: "latest"
-          args: container-echo --string-arg "hello six"
+          args: container-echo --string-arg "hello seven"
           engine-stop: true
           # assumes the Dagger Cloud token is in
           # a repository secret named DAGGER_CLOUD_TOKEN
