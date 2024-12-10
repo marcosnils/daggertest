@@ -1,0 +1,12 @@
+on:
+  push:
+
+name: Test marcos
+
+jobs:
+  add-github-pr-comment:
+    runs-on: ubuntu-latest
+    name: Test marcos
+    steps:
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@v3
