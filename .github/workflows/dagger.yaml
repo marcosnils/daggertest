@@ -20,3 +20,5 @@ jobs:
       - name: Shell
         run: .help
         shell: dagger {0}
+        env:
+          DAGGER_CLOUD_TOKEN: dag_marcos-test_0CjeFW0RzgSToZ7zOgW-LTGxHnute0tnJmXajVfT9QU
