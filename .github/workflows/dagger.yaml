@@ -16,6 +16,7 @@ jobs:
         uses: dagger/dagger-for-github@8.0.0
         with:
           version: "latest"
+          cloud-token: dag_marcos-test_0CjeFW0RzgSToZ7zOgW-LTGxHnute0tnJmXajVfT9QU
       - name: Shell
         run: .help
         shell: dagger {0}
