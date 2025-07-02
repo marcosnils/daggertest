@@ -13,7 +13,6 @@ import (
 func main() {
 
 	ctx := context.Background()
-
 	keySet := oidc.NewRemoteKeySet(ctx, "https://token.actions.githubusercontent.com/.well-known/jwks")
 	verifier := oidc.NewVerifier("https://token.actions.githubusercontent.com", keySet, &oidc.Config{SkipClientIDCheck: true})
 
