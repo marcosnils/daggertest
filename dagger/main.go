@@ -24,3 +24,8 @@ type Daggertest struct{}
 func (m *Daggertest) ContainerEcho(stringArg string) *dagger.Container {
 	return dag.Container().From("alpine:latest").WithExec([]string{"echo", stringArg})
 }
+
+// +check
+func (m *Daggertest) Test() {
+	dag.Container().From("alpine").WithExec([]string{"echo", "this is a check"})
+}
