@@ -15,7 +15,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Call Dagger Function
-        env: OTEL_EXPORTER_OTLP_METRICS_ENDPOINT=http://localhost:8080/v1/metrics
+        env:
+          OTEL_EXPORTER_OTLP_METRICS_ENDPOINT: http://localhost:8080/v1/metrics
         uses: dagger/dagger-for-github@662d9b66af7c40b8745fb3131785a53129193ffe
         with:
           version: "latest"
