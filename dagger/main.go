@@ -26,6 +26,6 @@ func (m *Daggertest) ContainerEcho(stringArg string) *dagger.Container {
 
 // +check
 func (m *Daggertest) Test() {
-	// 12
+	// 123
 	dag.Container().From("alpine").WithExec([]string{"echo", "this is a check"})
 }
