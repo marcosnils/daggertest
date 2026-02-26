@@ -15,6 +15,8 @@
 package main
 
 import (
+	"context"
+
 	"dagger/daggertest/internal/dagger"
 )
 
@@ -25,7 +27,8 @@ func (m *Daggertest) ContainerEcho(stringArg string) *dagger.Container {
 }
 
 // +check
-func (m *Daggertest) Test() {
+func (m *Daggertest) Test() error {
 	// 12345
-	dag.Container().From("alpine").WithExec([]string{"echo", "this is a check"})
+	_, err := dag.Container().From("alpine").WithExec([]string{"asdasd", "this is a check"}).Sync(context.Background())
+	return err
 }
