@@ -29,6 +29,6 @@ func (m *Daggertest) ContainerEcho(stringArg string) *dagger.Container {
 // +check
 func (m *Daggertest) Test() error {
 	// 12345
-	_, err := dag.Container().From("alpine").WithExec([]string{"asdasd", "this is a check now"}).Sync(context.Background())
+	_, err := dag.Container().From("alpine").WithExec([]string{"echo", "this is a check now"}).Sync(context.Background())
 	return err
 }
