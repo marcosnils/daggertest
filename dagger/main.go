@@ -16,6 +16,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 
 	"dagger/daggertest/internal/dagger"
 )
@@ -28,7 +29,19 @@ func (m *Daggertest) ContainerEcho(stringArg string) *dagger.Container {
 
 // +check
 func (m *Daggertest) Test() error {
-	// 12345
 	_, err := dag.Container().From("alpine").WithExec([]string{"echo", "this is a check now"}).Sync(context.Background())
 	return err
+}
+
+// +check
+func (m *Daggertest) Secret(
+	// +optional
+	APIKey *dagger.Secret,
+) error {
+	if APIKey == nil {
+		fmt.Println("api key not set")
+		return nil
+	}
+	fmt.Println("secret it set")
+	return nil
 }
