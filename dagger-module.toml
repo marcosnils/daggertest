@@ -1,0 +1,7 @@
+name = "daggertest"
+engineVersion = "v0.21.7"
+source = "dagger"
+disableDefaultFunctionCaching = true
+
+[runtime]
+  source = "go"
