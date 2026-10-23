@@ -16,32 +16,58 @@ package main
 
 import (
 	"context"
+	"debug/elf"
 	"fmt"
-
-	"dagger/daggertest/internal/dagger"
+	"os"
+	"path/filepath"
 )
 
 type Daggertest struct{}
 
-func (m *Daggertest) ContainerEcho(stringArg string) *dagger.Container {
-	return dag.Container().From("alpine:latest").WithExec([]string{"echo", stringArg})
-}
+const exampleMain = `package main
 
-// +check
-func (m *Daggertest) Test() error {
-	_, err := dag.Container().From("alpine").WithExec([]string{"echo", "this is a check now"}).Sync(context.Background())
-	return err
-}
+import "fmt"
 
+func main() {
+	fmt.Println("hello from arm64")
+}
+`
+
+// Cross-compiles a simple Go example project for linux/arm64 and verifies the
+// resulting binary is an AArch64 ELF executable.
+//
 // +check
-func (m *Daggertest) Secret(
-	// +optional
-	APIKey *dagger.Secret,
-) error {
-	if APIKey == nil {
-		fmt.Println("api key not set")
-		return nil
+func (m *Daggertest) Test(ctx context.Context) error {
+	binary := dag.Container().
+		From("golang:1.26-alpine").
+		WithWorkdir("/src").
+		WithNewFile("go.mod", "module example\n\ngo 1.26\n").
+		WithNewFile("main.go", exampleMain).
+		WithEnvVariable("CGO_ENABLED", "0").
+		WithEnvVariable("GOOS", "linux").
+		WithEnvVariable("GOARCH", "arm64").
+		WithExec([]string{"go", "build", "-o", "/out/example", "."}).
+		File("/out/example")
+
+	dir, err := os.MkdirTemp("", "example")
+	if err != nil {
+		return err
 	}
-	fmt.Println("secret it set")
+	defer os.RemoveAll(dir)
+
+	path := filepath.Join(dir, "example")
+	if _, err := binary.Export(ctx, path); err != nil {
+		return err
+	}
+
+	f, err := elf.Open(path)
+	if err != nil {
+		return fmt.Errorf("parse binary as ELF: %w", err)
+	}
+	defer f.Close()
+
+	if f.Machine != elf.EM_AARCH64 {
+		return fmt.Errorf("expected %s binary, got %s", elf.EM_AARCH64, f.Machine)
+	}
 	return nil
 }
