@@ -29,7 +29,7 @@ const exampleMain = `package main
 import "fmt"
 
 func main() {
-	fmt.Println("hello from arm64")
+	fmt.Println("hello from arm64..")
 }
 `
 
